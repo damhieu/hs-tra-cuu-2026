@@ -1,0 +1,57 @@
+/* theme3.css — Giao diện 3: chuyên sâu nền tối "Hải quan Việt Nam HS 2022"
+   (bản "sáng" của theme này vẫn thiên tối nhẹ theo tinh thần ảnh mẫu,
+    chế độ tối là bản đậm hơn) */
+[data-theme="t3"] {
+  --font: "Segoe UI", system-ui, Arial, sans-serif;
+  --bg: #f0f4f9;
+  --panel: #ffffff;
+  --text: #17273a;
+  --muted: #5c728a;
+  --border: #cdd9e8;
+  --accent: #1266d1;
+  --accent-2: #f2b32c;
+  --on-accent: #ffffff;
+  --heading: #0e4c9c;
+  --credit-bg: #081a30;
+  --credit-text: #b8cce5;
+  --header-bg: #0d2545;
+  --header-text: #e8f0fa;
+  --side-bg: #0a1e39;
+  --side-text: #c8d8ec;
+  --th-bg: #10386b;
+  --th-text: #ffffff;
+  --row-hover: #e4eefb;
+  --row-heading-bg: #eef3fa;
+  --mark-bg: #ffe89a;
+  --donate-bg: #0d3b24;
+  --donate-text: #eafff2;
+  --search-radius: 8px;
+  --btn-radius: 7px;
+  --table-radius: 6px;
+}
+[data-theme="t3"][data-mode="dark"] {
+  --bg: #0a1526;
+  --panel: #101f35;
+  --text: #d6e2f2;
+  --muted: #8398b3;
+  --border: #1f3a5c;
+  --accent: #3f8ff5;
+  --accent-2: #f2b32c;
+  --on-accent: #06182c;
+  --danger: #ff6b5e;
+  --heading: #8ebef5;
+  --credit-bg: #050f1d;
+  --credit-text: #6f8db3;
+  --header-bg: #0a1c36;
+  --header-text: #d6e2f2;
+  --side-bg: #081527;
+  --side-text: #b3c7e0;
+  --th-bg: #142f55;
+  --row-hover: #16294a;
+  --row-heading-bg: #12233d;
+  --mark-bg: #6b5716;
+  --pill-zero-bg: #14432c; --pill-zero-text: #7fd7a5;
+  --pill-pos-bg: #4b2f14; --pill-pos-text: #f0b072;
+  --pill-cond-bg: #232f5e; --pill-cond-text: #a4b4f5;
+  --warn-bg: #40300d; --warn-text: #eec96d; --warn-border: #6b5716;
+}

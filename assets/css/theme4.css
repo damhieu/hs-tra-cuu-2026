@@ -1,0 +1,51 @@
+/* theme4.css — Giao diện 4: "THƯ VIỆN HS & BIỂU THUẾ" đỏ đô phong cách thư viện */
+[data-theme="t4"] {
+  --font: "Segoe UI", system-ui, Arial, sans-serif;
+  --bg: #faf6f1;
+  --panel: #ffffff;
+  --text: #33241f;
+  --muted: #7d6a60;
+  --border: #e2d5c8;
+  --accent: #7b1f24;
+  --accent-2: #e9b949;
+  --on-accent: #ffffff;
+  --heading: #5e1418;
+  --credit-bg: #2e0d0f;
+  --credit-text: #e5c9ca;
+  --header-bg: linear-gradient(90deg, #5e1418, #7b1f24);
+  --header-text: #f7ecec;
+  --th-bg: #7b1f24;
+  --th-text: #ffffff;
+  --row-hover: #f7efe4;
+  --row-heading-bg: #f6efe6;
+  --mark-bg: #f5e0a3;
+  --donate-bg: #0d3b24;
+  --donate-text: #eafff2;
+  --search-radius: 8px;
+  --btn-radius: 7px;
+  --table-radius: 8px;
+}
+[data-theme="t4"][data-mode="dark"] {
+  --bg: #191010;
+  --panel: #241717;
+  --text: #ecdcd4;
+  --muted: #a98f85;
+  --border: #45302c;
+  --accent: #d98a6a;
+  --accent-2: #e9b949;
+  --on-accent: #2e0d0f;
+  --danger: #ff6b5e;
+  --heading: #eab4a0;
+  --credit-bg: #120808;
+  --credit-text: #b08a8c;
+  --header-bg: linear-gradient(90deg, #3d0d10, #57181c);
+  --header-text: #f0dcdc;
+  --th-bg: #571a1e;
+  --row-hover: #32201d;
+  --row-heading-bg: #2b1b18;
+  --mark-bg: #6b5716;
+  --pill-zero-bg: #14432c; --pill-zero-text: #7fd7a5;
+  --pill-pos-bg: #4b2f14; --pill-pos-text: #f0b072;
+  --pill-cond-bg: #232f5e; --pill-cond-text: #a4b4f5;
+  --warn-bg: #40300d; --warn-text: #eec96d; --warn-border: #6b5716;
+}

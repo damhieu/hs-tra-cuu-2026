@@ -1,0 +1,55 @@
+/* theme1.css — Giao diện 1: "TRA CỨU MÃ HS" xanh dương đậm */
+[data-theme="t1"] {
+  --font: "Segoe UI", system-ui, Arial, sans-serif;
+  --bg: #eef3fa;
+  --panel: #ffffff;
+  --text: #1c2b3a;
+  --muted: #5d7182;
+  --border: #d5e0ec;
+  --accent: #0d4ea3;
+  --accent-2: #ffd34d;
+  --on-accent: #ffffff;
+  --heading: #0d3a78;
+  --credit-bg: #071e3d;
+  --credit-text: #cfe0f5;
+  --header-bg: linear-gradient(90deg, #0a3d7c, #0d4ea3);
+  --header-text: #ffffff;
+  --subhead-bg: #ffffff;
+  --side-bg: #0e2a4d;
+  --side-text: #dbe7f5;
+  --th-bg: #0d4ea3;
+  --th-text: #ffffff;
+  --row-hover: #e8f0fb;
+  --row-heading-bg: #f2f6fc;
+  --mark-bg: #ffe89a;
+  --donate-bg: #0d3b24;
+  --donate-text: #eafff2;
+  --search-radius: 10px;
+  --btn-radius: 8px;
+  --table-radius: 8px;
+}
+[data-theme="t1"][data-mode="dark"] {
+  --bg: #0b1826;
+  --panel: #12253b;
+  --text: #dbe7f3;
+  --muted: #8aa2b8;
+  --border: #24405e;
+  --accent: #5da4f0;
+  --on-accent: #06213a;
+  --danger: #ff6b5e;
+  --heading: #9cc6f5;
+  --credit-bg: #061426;
+  --credit-text: #7d9cbf;
+  --header-bg: linear-gradient(90deg, #0a2c56, #0d3a71);
+  --subhead-bg: #102137;
+  --side-bg: #0a1c30;
+  --side-text: #b9cde2;
+  --th-bg: #17436f;
+  --row-hover: #1a3350;
+  --row-heading-bg: #16293f;
+  --mark-bg: #6b5716;
+  --pill-zero-bg: #14432c; --pill-zero-text: #7fd7a5;
+  --pill-pos-bg: #4b2f14; --pill-pos-text: #f0b072;
+  --pill-cond-bg: #232f5e; --pill-cond-text: #a4b4f5;
+  --warn-bg: #40300d; --warn-text: #eec96d; --warn-border: #6b5716;
+}

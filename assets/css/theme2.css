@@ -1,0 +1,73 @@
+/* theme2.css — Giao diện 2: "HS Việt Nam" (mặc định)
+   Bản sắc: sổ tra cứu chính ngạch — sơn mài xanh + ấn vàng đồng trên nền giấy dó,
+   thay vì tông xanh SaaS chung chung. Mã HS dùng font đơn cách (mono) như 1 định danh
+   chính xác, tách biệt khỏi văn bản mô tả (xem base.css khối GIAO DIỆN 2). */
+[data-theme="t2"] {
+  --font: "Segoe UI", system-ui, Arial, sans-serif;
+  --font-mono: Consolas, "SFMono-Regular", "Cascadia Mono", Menlo, monospace;
+  --bg: #f7f2e7;
+  --panel: #fffdf8;
+  --text: #202b21;
+  --muted: #6d7a6a;
+  --border: #e3dcc7;
+  --accent: #0b5c33;
+  --accent-2: #a9761f;
+  --on-accent: #ffffff;
+  --heading: #0a4527;
+  --credit-bg: #f7f2e7;
+  --credit-text: #4d6457;
+  --credit-align: center;
+  --header-bg: #fffdf8;
+  --header-text: #202b21;
+  /* header/credit-bar ở GD2 sáng gần trắng — các nút đổi giao diện/chế độ màu cần viền
+     và nền tối màu hơn để còn thấy được, khác với các theme kia luôn có header tối */
+  --border-onhead: rgba(0,0,0,.18);
+  --onhead-bg: rgba(0,0,0,.05);
+  --onhead-bg-hover: rgba(0,0,0,.09);
+  --th-bg: #eaf2ea;
+  --th-text: #0a4527;
+  --row-hover: #f0ede0;
+  --row-heading-bg: #f4f0e2;
+  --mark-bg: #ffe089;
+  --card-shadow: none;
+  --donate-bg: #0d3b24;
+  --donate-text: #eafff2;
+  --pill-zero-bg: #e7f6ec; --pill-zero-text: #0f6b37;
+  --pill-pos-bg: #fbeee0; --pill-pos-text: #96540f;
+  --search-radius: 10px;
+  --btn-radius: 8px;
+  --table-radius: 10px;
+}
+[data-theme="t2"][data-mode="dark"] {
+  --bg: #10190f;
+  --panel: #182619;
+  --text: #dbe8db;
+  --muted: #90a390;
+  --border: #2c4130;
+  --accent: #5bc98d;
+  --accent-2: #d9ac52;
+  --on-accent: #06281a;
+  --danger: #ff6b5e;
+  --heading: #92dcb0;
+  --credit-bg: #10190f;
+  --credit-text: #7f9481;
+  --header-bg: #142118;
+  --header-text: #dbe8db;
+  /* header GD2 tối lại tối như các theme khác — trả 3 biến onhead về trắng-mờ (khớp
+     fallback mặc định trong base.css), không để lọt giá trị mực-tối của block sáng ở
+     trên vào đây (mực tối trên nền tối sẽ vô hình) */
+  --border-onhead: rgba(255,255,255,.4);
+  --onhead-bg: rgba(255,255,255,.08);
+  --onhead-bg-hover: rgba(255,255,255,.18);
+  --th-bg: #1b3324;
+  --th-text: #a9dfc2;
+  --row-hover: #1e2f1f;
+  --row-heading-bg: #213a24;
+  --mark-bg: #5a4416;
+  --card-shadow: none;
+  --donate-bg: #0a2d1c;
+  --pill-zero-bg: #14432c; --pill-zero-text: #7fd7a5;
+  --pill-pos-bg: #4b2f14; --pill-pos-text: #f0b072;
+  --pill-cond-bg: #232f5e; --pill-cond-text: #a4b4f5;
+  --warn-bg: #40300d; --warn-text: #eec96d; --warn-border: #6b5716;
+}

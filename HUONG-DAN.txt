@@ -1,0 +1,42 @@
+================================================================
+  TRA CỨU BIỂU THUẾ XNK 2026 & CHÚ GIẢI HS 2022
+  Thiết kế bởi Đàm Mạnh Hiếu — Hải quan Khu vực II
+================================================================
+
+CÁCH SỬ DỤNG
+------------
+1. Giải nén toàn bộ thư mục này (nếu đang ở dạng file nén ZIP).
+2. Nháy đúp vào file  index.html  — ứng dụng mở bằng trình duyệt
+   (Chrome, Edge, Safari, Firefox... đều được).
+3. Không cần cài đặt gì thêm, không cần Internet.
+   Toàn bộ dữ liệu chạy ngay trên máy của bạn.
+
+TÍNH NĂNG CHÍNH
+---------------
+- Tra mã HS theo mã số (VD: 8471, 0102.21) hoặc mô tả hàng hóa
+  (VD: "máy vi tính"), gõ có dấu hay không dấu đều được.
+- Xem đầy đủ thuế: NK thông thường, NK ưu đãi (MFN), VAT,
+  20 hiệp định FTA (ATIGA, CPTPP, EVFTA, RCEP...), TTĐB,
+  thuế xuất khẩu, BVMT — kèm số văn bản và ngày hiệu lực.
+- Đọc và tìm kiếm toàn văn Chú giải chi tiết HS 2022 (96 chương).
+- Cảnh báo 833 mã hết hiệu lực / 1.434 mã mới của năm 2026.
+- Đánh dấu yêu thích ★, ghi chú cá nhân, lịch sử tra cứu
+  (lưu ngay trong trình duyệt trên máy bạn).
+- 4 giao diện, 3 chế độ màu: Sáng / Tối / Tự động.
+- Công cụ ước tính thuế nhập khẩu.
+
+GÓP Ý
+-----
+Email: dammanhhieu@gmail.com
+
+ỦNG HỘ TÁC GIẢ
+--------------
+Nếu bạn thấy ứng dụng hữu ích, hãy ủng hộ tôi một tách cà phê nhé!
+ĐÀM MẠNH HIẾU · BIDV · 2220289471
+(Mã QR có ở cuối trang ứng dụng)
+
+LƯU Ý
+-----
+- Dữ liệu chỉ mang tính tham khảo. Khi áp dụng chính thức, vui lòng
+  đối chiếu văn bản pháp luật hiện hành.
+- Đánh dấu/ghi chú được lưu theo từng trình duyệt trên từng máy.
