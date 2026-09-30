@@ -782,6 +782,53 @@ th.sortable { cursor: pointer; user-select: none; }
   .l4-detail { position: static; width: auto; }
 }
 
+/* ---------------- điện thoại (≤640px) ---------------- */
+/* Web công khai (v1.3.48) mở mặc định vào GD4 nên nhiều người sẽ vào bằng điện thoại. Đo ở 375px
+   trước khi sửa: GD4 tràn ngang tới 534px, menu trái 200px chiếm hơn nửa màn hình (nội dung chỉ
+   còn 175px), header cao 265px; ô tìm kiếm dùng chung (min-width 260px + 2 nút nowrap) làm tràn
+   cả GD1/GD2. Xem SYSTEM-SPEC §10.34. */
+@media (max-width: 640px) {
+  .content { padding: 14px 12px 24px; }
+  /* ô nhập chiếm trọn hàng đầu, các nút xuống hàng dưới và chia đều bề ngang */
+  .search-box { flex-wrap: wrap; min-width: 0; }
+  .search-input { flex: 1 1 calc(100% - 32px); }
+  .search-box .btn { flex: 1 1 auto; }
+  /* nút đổi giao diện/chế độ màu (GD3/GD4) xuống dòng thay vì nằm đè lên dòng chữ credit */
+  .credit-bar { flex-wrap: wrap; gap: 6px; }
+  .credit-right { position: static; transform: none; }
+  .group-nav, .lib-head, .pager-ctl { flex-wrap: wrap; gap: 6px; }
+  /* min-width 260px (để dh-actions xuống dòng ở màn vừa) tự nó đã rộng hơn cột nội dung GD2 */
+  .dh-left { min-width: 0; flex-basis: 100%; }
+  /* thẻ kết quả: bên cạnh rail 92px của GD2, lưới 4 cột ở ≤900px chỉ chừa ~60px cho mô tả ->
+     hàng 1 = mã + ★ + mũi tên, mô tả xuống hàng 2 chiếm trọn bề ngang */
+  .result-card { grid-template-columns: auto auto 1fr auto; gap: 6px 10px; }
+  .rc-desc { grid-column: 1 / -1; grid-row: 2; }
+  .rc-arrow { grid-column: 4; grid-row: 1; justify-self: end; }
+  /* GD1: "Biểu thuế khác ▾" canh theo cả hàng chip thay vì theo nút (nút hay rơi sát mép phải,
+     menu rộng 230px mở ra sẽ vượt khỏi màn hình) */
+  .chip-menu { position: static; }
+  [data-theme="t1"] .l1-chips { position: relative; }
+
+  [data-theme="t4"] .l4-header { padding: 10px 12px; gap: 8px 10px; }
+  [data-theme="t4"] .l4-header h1 { white-space: normal; font-size: 1.1rem; flex: 1; min-width: 0; }
+  /* cả 5 mục ở đây (🏠, Ghi chú, Đánh dấu, Lịch sử, Cài đặt) đều có sẵn trong dải menu ngay bên
+     dưới, còn nhãn "● Hoạt động ngoại tuyến" chỉ để trang trí -> bỏ, header bớt ~70px (2 hàng) */
+  [data-theme="t4"] .l4-header .head-tools { display: none; }
+  /* menu trái -> 1 dải ngang tự cuộn nằm trên nội dung; dải tự cuộn nên không làm tràn trang */
+  [data-theme="t4"] .l4-body { flex-direction: column; }
+  [data-theme="t4"] .l4-menu {
+    width: auto; flex-direction: row; overflow-x: auto; padding: 6px 8px;
+    border-right: 0; border-bottom: 1px solid var(--border);
+  }
+  [data-theme="t4"] .l4-menu .nav-item {
+    white-space: nowrap; padding: 7px 10px; border-left: 0; border-bottom: 3px solid transparent;
+  }
+  [data-theme="t4"] .l4-menu .nav-item:hover,
+  [data-theme="t4"] .l4-menu .nav-item.active { border-bottom-color: var(--accent-2); }
+  [data-theme="t4"] .l4-menu-note { display: none; }
+  [data-theme="t4"] .l4-detail { align-self: stretch; min-width: 0; }
+}
+
 /* ---------------- in ấn ---------------- */
 @media print {
   .credit-bar, .l1-header, .l1-search-row, .l1-sidebar, .l2-header, .l2-rail, .l2-search-row,
