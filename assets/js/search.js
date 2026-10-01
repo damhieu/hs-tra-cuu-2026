@@ -57,6 +57,42 @@ var Search = (function () {
     for (var n = 0; n < gi.length; n++) normFull[gi[n]] = U.norm(fullDesc(gi[n]));
   }
 
+  /* Ký tự có phải chữ/số không. Dùng được cho cả chuỗi đã norm lẫn chuỗi CÒN DẤU: ký tự ASCII
+     xét thẳng, ký tự có dấu (à, ê, đ…) đưa qua U.norm về a-z rồi mới xét. */
+  function isWordCh(ch) {
+    var c = ch.charCodeAt(0);
+    if (c < 128) return (c >= 97 && c <= 122) || (c >= 48 && c <= 57) || (c >= 65 && c <= 90);
+    return /[a-z0-9]/.test(U.norm(ch));
+  }
+
+  /* Vị trí đầu tiên `needle` xuất hiện TRỌN TỪ trong `hay` (2 đầu không dính chữ/số khác), -1 nếu
+     không có. */
+  function wordIndex(hay, needle) {
+    var p = -1;
+    while ((p = hay.indexOf(needle, p + 1)) !== -1) {
+      var e = p + needle.length;
+      if ((p === 0 || !isWordCh(hay[p - 1])) && (e >= hay.length || !isWordCh(hay[e]))) return p;
+    }
+    return -1;
+  }
+
+  /* Bản CÒN DẤU (chữ thường, NFC) của mô tả 1 dòng / của mô tả đầy đủ kèm chuỗi cha — chỉ dùng để
+     xét "khớp đúng dấu" khi người dùng gõ có dấu. Tính theo nhu cầu cho các dòng đã lọt vòng khớp
+     không dấu (vài chục tới vài nghìn dòng), không dựng sẵn cho cả 17,6k dòng. */
+  function lowOwn(i) {
+    var r = D.rows[i];
+    return (r[3] + " " + (r[4] || "")).toLowerCase().normalize("NFC");
+  }
+  var lowFullCache = {};
+  function lowFull(i) {
+    return lowFullCache[i] || (lowFullCache[i] = fullDesc(i).toLowerCase().normalize("NFC"));
+  }
+  function wordCount(hay, tokens) {
+    var n = 0;
+    for (var t = 0; t < tokens.length; t++) if (wordIndex(hay, tokens[t]) !== -1) n++;
+    return n;
+  }
+
   /* Số từ khóa xuất hiện với ranh giới 2 đầu (không nằm lọt giữa 1 chữ khác). Tiếng Việt viết rời
      từng âm tiết, đầy âm tiết 2 ký tự, nên so khớp indexOf thuần rất dễ trúng nhầm: "ca" là chuỗi
      con của "cầy"/"các", "ba" của "bảo"/"bàn", "sa" của "sản"/"sang" — khiến truy vấn nhiều từ như
@@ -82,6 +118,14 @@ var Search = (function () {
     var nq = U.norm(q).trim();
     if (!nq) return { hits: [], tokens: [], truncated: false };
     var tokens = nq.split(/\s+/).filter(Boolean);
+    nq = tokens.join(" ");   // gõ thừa dấu cách giữa các từ vẫn khớp nguyên cụm
+    /* Bản NGUYÊN CHỮ (còn dấu) của truy vấn. Tìm kiếm vẫn KHÔNG phân biệt dấu (gõ "ca phe" ra "cà
+       phê"), nhưng dòng khớp ĐÚNG NGUYÊN CHỮ người dùng gõ phải đứng trước: bỏ dấu đi thì "bơ" =
+       "bò" = "bộ", "sắt" = "sát", "đường" = "dương", "giày" = "giấy"… Áp dụng cả khi gõ không dấu:
+       "cam" ra quả cam trước "gia cầm"; còn "ca phe" không có dòng nào khớp nguyên chữ nên thứ tự
+       như cũ — xem SYSTEM-SPEC §10.37. */
+    var lqTokens = q.toLowerCase().normalize("NFC").trim().split(/\s+/).filter(Boolean);
+    var lq = lqTokens.join(" ");
     if (tokens.length > 1) ensureNormFull();
     var gi = Store.goodsIdx, rows = D.rows;
     var phrase = [], andHits = [], orHits = [];
@@ -93,7 +137,17 @@ var Search = (function () {
       var own = vi + " " + en;
       // khớp cụm nguyên văn CHỈ soi mô tả của chính dòng — chuỗi nối " › " của fullDesc không được
       // lẫn vào đây, kẻo 1 cụm bắc cầu qua ranh giới cha/con bị tính là "khớp nguyên cụm"
-      if (own.indexOf(nq) !== -1) { phrase.push(i); continue; }
+      if (own.indexOf(nq) !== -1) {
+        /* hạng trong tầng khớp nguyên cụm: 3 = trọn từ + đúng nguyên chữ; 2 = trọn từ (không xét dấu);
+           1 = cụm lọt giữa chữ khác ("o to" trong "cho tôm", "che" trong "ostriches") — vẫn giữ
+           trong kết quả để gõ dở 1 từ vẫn ra, nhưng xếp sau cùng */
+        var rank = 1;
+        if (wordIndex(own, nq) !== -1) {
+          rank = wordIndex(lowOwn(i), lq) !== -1 ? 3 : 2;
+        }
+        phrase.push([i, rank, n]);
+        continue;
+      }
       if (tokens.length > 1) {
         var full = normFull[i];
         var sub = 0;
@@ -102,13 +156,20 @@ var Search = (function () {
         // điểm chính: số từ khớp trọn âm tiết trong mô tả ĐẦY ĐỦ (kể cả nhóm cha); điểm phụ (gỡ
         // hòa): ưu tiên dòng TỰ NÓ khớp hơn dòng chỉ khớp nhờ mô tả cha
         var score = boundaryCount(full, tokens) * 10 + boundaryCount(own, tokens);
-        if (sub === tokens.length) andHits.push([i, score]);
+        if (sub === tokens.length) {
+          // số từ khớp đúng nguyên chữ là tiêu chí cao nhất (chỉ tính cho dòng đã lọt tầng AND)
+          score += wordCount(lowFull(i), lqTokens) * 100;
+          andHits.push([i, score]);
+        }
         else if (!opts.exact) orHits.push([i, sub * 1000 + score]);
       }
     }
     /* Nhánh OR là hạ sách khi phrase+AND quá ít — không đổi ngưỡng "hits.length < 20" hay tổng số
        kết quả/`truncated` (giữ nguyên ngữ nghĩa đã có ở SYSTEM-SPEC §10.30), chỉ đổi phạm vi khớp
        (kèm mô tả cha) và cách xếp hạng bên trong từng tầng. */
+    // cùng hạng thì giữ thứ tự biểu thuế (n) — không dựa vào việc sort() có ổn định hay không
+    phrase.sort(function (a, b) { return b[1] - a[1] || a[2] - b[2]; });
+    phrase = phrase.map(function (h) { return h[0]; });
     andHits.sort(function (a, b) { return b[1] - a[1]; });
     orHits.sort(function (a, b) { return b[1] - a[1]; });
     var hits = phrase.concat(andHits.map(function (h) { return h[0]; }));
