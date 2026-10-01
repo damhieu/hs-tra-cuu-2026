@@ -152,7 +152,7 @@ var Layouts = (function () {
       ]),
       el("div", { class: "version-line" },
         "Phiên bản " + (meta.version || "?") + "  ·  Build " + U.fmtDateTime(meta.built) +
-        "  ·  Dữ liệu chạy hoàn toàn trên máy")
+        (U.isWeb() ? "" : "  ·  Dữ liệu chạy hoàn toàn trên máy"))
     ]);
   }
 
@@ -292,7 +292,7 @@ var Layouts = (function () {
         homeBtn(), layoutSwitcher(),
         // từng có badge "✓ Mặc định" ở đây (luôn hiện vì GD2 là mặc định) — bỏ từ v1.3.48 khi GD4 thành mặc định
         modeSwitcher(),
-        el("span", { class: "l2-badge green" }, "✓ Dữ liệu trên máy"),
+        el("span", { class: "l2-badge green" }, U.isWeb() ? "✓ Bản trực tuyến" : "✓ Dữ liệu trên máy"),
         el("a", { class: "head-link", href: "#/settings", "data-route": "#/settings" }, "⚙")
       ])
     ]);
@@ -457,7 +457,7 @@ var Layouts = (function () {
       searchBox({ placeholder: "Tìm kiếm mã HS, mô tả hàng hóa, chú giải…", notesBtn: true }),
       el("div", { class: "head-tools" }, [
         homeBtn(true),
-        el("span", { class: "l4-badge" }, "● Hoạt động ngoại tuyến"),
+        el("span", { class: "l4-badge" }, U.isWeb() ? "● Bản trực tuyến" : "● Hoạt động ngoại tuyến"),
         el("a", { class: "head-link", href: "#/mynotes", "data-route": "#/mynotes", title: "Ghi chú" }, "📝 Ghi chú"),
         el("a", { class: "head-link", href: "#/fav", "data-route": "#/fav", title: "Đánh dấu" }, "🔖 Đánh dấu"),
         el("a", { class: "head-link", href: "#/history", "data-route": "#/history", title: "Lịch sử" }, "🕐 Lịch sử"),

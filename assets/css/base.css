@@ -560,6 +560,13 @@ td.ctx-note { text-align: left; }
 @media (max-width: 1700px) {
   [data-theme="t4"] .l4-header .search-box { order: 10; flex-basis: 100%; }
 }
+/* nút 🏠 của GD4 chỉ có biểu tượng (không kèm chữ như GD1-3) nên ở cỡ chữ thường rất khó thấy và
+   khó bấm -> to hơn, có khung như các nút khác trên header */
+[data-theme="t4"] .l4-header .home-link {
+  font-size: 1.6rem; line-height: 1; padding: 5px 9px; border-radius: 8px; opacity: 1;
+  border: 1px solid var(--border-onhead, rgba(255,255,255,.4));
+  background: var(--onhead-bg, rgba(255,255,255,.08));
+}
 [data-theme="t4"] .l4-body { display: flex; min-height: 62vh; }
 [data-theme="t4"] .l4-menu {
   width: 250px; flex: none; background: var(--panel); border-right: 1px solid var(--border);
@@ -811,9 +818,54 @@ th.sortable { cursor: pointer; user-select: none; }
 
   [data-theme="t4"] .l4-header { padding: 10px 12px; gap: 8px 10px; }
   [data-theme="t4"] .l4-header h1 { white-space: normal; font-size: 1.1rem; flex: 1; min-width: 0; }
-  /* cả 5 mục ở đây (🏠, Ghi chú, Đánh dấu, Lịch sử, Cài đặt) đều có sẵn trong dải menu ngay bên
-     dưới, còn nhãn "● Hoạt động ngoại tuyến" chỉ để trang trí -> bỏ, header bớt ~70px (2 hàng) */
-  [data-theme="t4"] .l4-header .head-tools { display: none; }
+  /* chỉ giữ nút 🏠 (nằm cùng hàng với tiêu đề): 4 mục còn lại (Ghi chú, Đánh dấu, Lịch sử, Cài
+     đặt) đều có sẵn trong dải menu ngay bên dưới, còn nhãn trạng thái chỉ để trang trí -> ẩn,
+     header bớt ~70px (2 hàng) */
+  [data-theme="t4"] .l4-header .head-tools { margin-left: 0; }
+  [data-theme="t4"] .l4-header .head-tools > :not(.home-link) { display: none; }
+
+  /* GD4 — bảng thư viện: 8 cột rộng 781px trong khung 349px, phải vuốt ngang mới thấy cột thuế.
+     Mỗi dòng xếp thành 1 khối dọc: hàng 1 = mã + ★, hàng 2 = mô tả, hàng 3 = ĐVT và các mức thuế
+     kèm nhãn (lấy từ data-label, vì thead bị ẩn). Ô thuế rỗng thì ẩn hẳn. */
+  .lib-table thead { display: none; }
+  .lib-table, .lib-table tbody { display: block; }
+  .lib-table tr {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 5px 8px;
+    padding: 10px; border-bottom: 1px solid var(--border);
+  }
+  .lib-table td { padding: 0; border: 0; }
+  .lib-table .cell-code { flex: 1; font-size: 1.02rem; }
+  .lib-table .cell-code:empty { display: none; }
+  .lib-table .col-note { order: 1; }
+  .lib-table .cell-desc { order: 2; flex: 1 1 100%; min-width: 0; }
+  .lib-table tr.lvl1 .cell-desc { padding-left: 0; }
+  .lib-table tr.lvl2 .cell-desc { padding-left: 10px; }
+  .lib-table tr.lvl3 .cell-desc { padding-left: 20px; }
+  .lib-table tr.lvl4 .cell-desc { padding-left: 30px; }
+  .lib-table tr.lvl5 .cell-desc { padding-left: 40px; }
+  .lib-table .col-unit, .lib-table td.num {
+    order: 3; font-size: .82rem; font-weight: 700; white-space: normal; text-align: left;
+    background: var(--pill-bg, rgba(0,0,0,.06)); border-radius: 8px; padding: 2px 8px;
+  }
+  .lib-table .col-unit:empty, .lib-table td.num:empty, .lib-table td.rate-none { display: none; }
+  .lib-table .col-unit::before, .lib-table td.num::before {
+    content: attr(data-label) " "; font-weight: 400; color: var(--muted);
+  }
+  /* nền dòng tiêu đề/dòng đang chọn phải phủ cả khối, không chỉ từng ô */
+  .lib-table tr.row-heading { background: var(--row-heading-bg, rgba(0,0,0,.03)); }
+  .lib-table tr.row-heading td { background: transparent; }
+  .lib-table tr.row-selected { background: var(--mark-bg); }
+  .lib-table tr.ctx-note-row { display: block; padding: 0; }
+  .lib-table td.ctx-note { display: block; padding: 8px 10px; }
+
+  /* trang chi tiết: bảng thuế 4 cột rộng 413px trong khung 349px -> thu lề ô, cho tiêu đề cột và
+     số văn bản được xuống dòng */
+  .tax-table { font-size: .85rem; }
+  .tax-table th, .tax-table td { padding: 6px; }
+  .tax-table thead th { white-space: normal; }
+  .tax-table td.doc { overflow-wrap: anywhere; }
+  /* thuế suất ghi bằng chữ (VD "Theo hướng dẫn tại khoản 1.1 Chương 98", ~2,5% số mã) */
+  .tax-table td.num { white-space: normal; }
   /* menu trái -> 1 dải ngang tự cuộn nằm trên nội dung; dải tự cuộn nên không làm tràn trang */
   [data-theme="t4"] .l4-body { flex-direction: column; }
   [data-theme="t4"] .l4-menu {

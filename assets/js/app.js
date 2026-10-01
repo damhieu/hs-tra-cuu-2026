@@ -196,7 +196,8 @@ var App = (function () {
     wrap.appendChild(el("h2", { class: "page-title" }, "Tra cứu Biểu thuế XNK 2026 & Chú giải HS 2022"));
     wrap.appendChild(el("p", { class: "muted" },
       "Nhập mã HS (VD: 8471, 0102.21) hoặc mô tả hàng hóa (VD: máy vi tính) vào ô tìm kiếm phía trên. " +
-      "Toàn bộ dữ liệu chạy trên máy của bạn — không cần Internet."));
+      (U.isWeb() ? "Đánh dấu, ghi chú và lịch sử tra cứu được lưu ngay trong trình duyệt của bạn."
+        : "Toàn bộ dữ liệu chạy trên máy của bạn — không cần Internet.")));
     var stats = el("div", { class: "home-stats" }, [
       statCard(meta.stats ? meta.stats.code8 : "…", "mã HS chi tiết"),
       statCard(D.chapters ? D.chapters.length : "97", "chương"),

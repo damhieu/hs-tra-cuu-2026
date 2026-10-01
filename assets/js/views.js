@@ -149,6 +149,11 @@ var Views = (function () {
     if (!code) return {};
     return U.clickable({
       onclick: function (ev) {
+        /* điện thoại: khung "xem nhanh" (GD4: .l4-detail, GD1/GD3: panel dưới) nằm tít dưới bảng
+           + phân trang, chạm vào dòng xong không thấy gì đổi trên màn hình -> với mã 8 số mở
+           thẳng trang chi tiết. Mã nhóm 4/6 số vẫn chỉ chọn dòng (trang chi tiết của nhóm gần
+           như rỗng, và chọn dòng vẫn cập nhật khung chú giải bên dưới). */
+        if (U.isPhone() && code.length >= 8) { App.go("#/code/" + code); return; }
         if (App.select(i, ev.currentTarget) === false) App.go("#/code/" + code);
       },
       ondblclick: function () { App.go("#/code/" + code); },
@@ -1402,7 +1407,9 @@ var Views = (function () {
     box.appendChild(el("h3", null, "Dữ liệu"));
     box.appendChild(el("p", { class: "muted" },
       "Biểu thuế XNK 2026 (" + (meta.stats ? meta.stats.coded + " dòng mã" : "") + ") · Chú giải HS 2022 (" +
-      (D.notesIdx ? D.notesIdx.length : 0) + " chương). Toàn bộ dữ liệu, đánh dấu, ghi chú và lịch sử đều nằm trên máy của bạn — không gửi lên Internet."));
+      (D.notesIdx ? D.notesIdx.length : 0) + " chương). " + (U.isWeb()
+        ? "Đánh dấu, ghi chú và lịch sử chỉ lưu trong trình duyệt trên thiết bị này — không gửi lên máy chủ và không đồng bộ sang thiết bị khác."
+        : "Toàn bộ dữ liệu, đánh dấu, ghi chú và lịch sử đều nằm trên máy của bạn — không gửi lên Internet.")));
     box.appendChild(el("div", { class: "set-row" }, [
       el("button", {
         class: "btn danger", onclick: function () {
@@ -1531,12 +1538,15 @@ var Views = (function () {
         tr.appendChild(el("td", { class: "cell-code" }, code ? [
           el("span", null, U.fmtCode(code)), badgeFor(code)] : ""));
         tr.appendChild(el("td", { class: "cell-desc", html: U.highlight(r[3], tokens) }));
-        tr.appendChild(el("td", null, r[5] || ""));
+        /* data-label: trên điện thoại bảng này xếp mỗi dòng thành 1 khối dọc và ẩn thead (khối
+           @media ≤640px, .lib-table trong base.css) — nhãn cột khi đó lấy từ thuộc tính này */
+        tr.appendChild(el("td", { class: "col-unit", "data-label": "ĐVT" }, r[5] || ""));
         var byKey = code && code.length >= 8 ? taxByKey(i) : {};
         LIB_COLS.forEach(function (c) {
           var t = byKey[c[0]];
-          tr.appendChild(el("td", { class: "num", "data-tip": taxTip(t) },
-            t ? U.fmtRate(t.rate) : ""));
+          // rate-none: ô không có mức thuế (hiện "–" ở bảng ngang) — bản xếp dọc trên điện thoại ẩn đi
+          tr.appendChild(el("td", { class: "num" + (t && t.rate !== "" ? "" : " rate-none"),
+            "data-label": c[1], "data-tip": taxTip(t) }, t ? U.fmtRate(t.rate) : ""));
         });
         var tdNote = el("td", { class: "col-note" }, [
           code ? starBtn(code) : null,
@@ -1547,7 +1557,7 @@ var Views = (function () {
       });
       tableBox.innerHTML = "";
       tableBox.appendChild(el("div", { class: "table-wrap" },
-        el("table", { class: "result-table" }, [el("thead", null, [trGroup, trCols]), tbody])));
+        el("table", { class: "result-table lib-table" }, [el("thead", null, [trGroup, trCols]), tbody])));
 
       /* phân trang */
       var pages = Math.max(1, Math.ceil(total / pageSize));

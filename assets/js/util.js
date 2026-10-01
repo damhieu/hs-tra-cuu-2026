@@ -46,6 +46,23 @@ var U = {
     }).join("");
   },
 
+  /* App đang được phục vụ từ 1 trang web thật (GitHub Pages...) hay mở từ file trên máy?
+     Cùng 1 bộ code chạy cả 2 nơi (zip ngoại tuyến + web công khai), nên các câu kiểu "Hoạt động
+     ngoại tuyến"/"không cần Internet" chỉ đúng ở bản mở từ file — xem SYSTEM-SPEC §10.35.
+     localhost tính là "trên máy": đó là server thử nghiệm, và ảnh hướng dẫn (đi kèm bản zip) chụp
+     qua localhost nên phải ra đúng câu chữ của bản ngoại tuyến. Thêm ?web=1 vào URL để ép câu chữ
+     bản web khi cần kiểm thử ở localhost. */
+  isWeb: function () {
+    var l = window.location;
+    if (/[?&]web=1\b/.test(l.search)) return true;
+    return /^https?:$/.test(l.protocol) && !/^(localhost|127\.0\.0\.1|\[::1\])$/.test(l.hostname);
+  },
+
+  /* màn hình điện thoại — cùng ngưỡng với khối @media (max-width: 640px) trong base.css */
+  isPhone: function () {
+    return !!(window.matchMedia && window.matchMedia("(max-width: 640px)").matches);
+  },
+
   /* thêm tabindex=0 + kích hoạt bằng Enter/Space cho div/tr/a (không href) có onclick —
      các phần tử này không tự nhận focus bàn phím như <a href> hay <button> */
   clickable: function (attrs) {
