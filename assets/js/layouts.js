@@ -429,7 +429,7 @@ var Layouts = (function () {
     var meta = window.__HSDATA.meta || {};
     var status = el("div", { class: "l3-status" }, [
       statusLeft, statusMid,
-      el("span", null, "Phiên bản " + (meta.version || "?") + " · Build " + U.fmtDateTime(meta.built) + " · ● Ngoại tuyến")
+      el("span", null, "Phiên bản " + (meta.version || "?") + " · Build " + U.fmtDateTime(meta.built) + (U.isWeb() ? " · ● Trực tuyến" : " · ● Ngoại tuyến"))
     ]);
     var body = el("div", { class: "l3-body" + (Store.settings.sideCollapsed ? " side-collapsed" : "") },
       [sidebar, mainCol]);
