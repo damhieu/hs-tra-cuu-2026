@@ -137,13 +137,21 @@ var U = {
     if (!tokens || !tokens.length) return U.esc(text);
     var normText = U.norm(text);
     var marks = []; // [start, end]
+    /* Từ khóa nào có chỗ khớp TRỌN TỪ trong đoạn này thì chỉ tô các chỗ trọn từ; chỉ khi không có
+       chỗ nào trọn từ VÀ từ khóa dài từ 4 ký tự mới tô chuỗi con (để gõ dở 1 từ, VD "polym", vẫn
+       thấy tô). Trước v1.3.52 luôn tô mọi chuỗi con: tìm "cà phê" thì "ca" trong "caffeine",
+       "decaffeinated" và "cá" trong "các" cũng bị tô; tìm "ô tô" thì mọi chữ "o" đều vàng. */
     tokens.forEach(function (tok) {
       if (!tok) return;
-      var idx = 0;
+      var whole = [], part = [], idx = 0;
       while ((idx = normText.indexOf(tok, idx)) !== -1) {
-        marks.push([idx, idx + tok.length]);
-        idx += tok.length;
+        var end = idx + tok.length;
+        var b = idx === 0 ? " " : normText[idx - 1];
+        var a = end >= normText.length ? " " : normText[end];
+        (/[a-z0-9]/.test(b) || /[a-z0-9]/.test(a) ? part : whole).push([idx, end]);
+        idx = end;
       }
+      marks = marks.concat(whole.length ? whole : (tok.length >= 4 ? part : []));
     });
     if (!marks.length) return U.esc(text);
     marks.sort(function (a, b) { return a[0] - b[0]; });
